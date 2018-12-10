@@ -4,28 +4,31 @@ class Airport
   def initialize(capacity)
     @capacity = 100
     @planes = []
-    @weather_is_stormy = false
   end
 
   def land(plane)
-    if @planes.length >= @capacity
-      raise "Cannot land plane, airport at full capacity"
-    elsif
-      @weather_is_stormy == true
-      raise "Cannot land plane, weather is too dangerous"
-    else
-      @planes << plane
-      puts "airplane landed"
-    end
+    raise "Cannot land plane, airport at full capacity" if full?
+    raise "Cannot land plane, weather is too dangerous" if stormy?
+    @planes << plane
+    puts "airplane landed"
   end
 
+
   def take_off(plane)
-    if @weather_is_stormy == true
-      raise "Cannot land plane, weather is too dangerous"
-    else
-      @planes.pop
-      puts "plane has taken off"
+    raise "Cannot land plane, weather is too dangerous" if stormy?
+    @planes.pop
+    puts "plane has taken off"
   end
-end
+
+
+  private
+
+  def full?
+    @planes.length >= @capacity
+  end
+
+  def stormy?
+    rand(1..10) > 6
+  end
 
 end
